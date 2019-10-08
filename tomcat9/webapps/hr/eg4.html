@@ -1,0 +1,31 @@
+<!Doctype html>
+<html lang='en'>
+<head>
+<meta charset='utf-8'>
+<title>some company name</title>
+</head>
+
+<script>
+function Employee(vCode,vName)
+{
+this.code=vCode;
+this.name=vName;
+}
+var employees=[];
+function populateDataStructure()
+{
+employees.push(new Employee(101,"sameer"));
+employees.push(new Employee(102,"ameer"));
+employees.push(new Employee(103,"tameer"));
+employees.push(new Employee(104,"pameer"));
+alert(employees.length);
+for(var i=0;i<employees.length;i++)
+{
+alert(employees[i].code+" "+employees[i].name);
+}
+}
+//we globally called populateDataStructure() so script load hote hote chal jayeha
+//document puri tarah se load hone se phle
+populateDataStructure();
+alert("global alert script load hote hote chal jayega");
+</script>

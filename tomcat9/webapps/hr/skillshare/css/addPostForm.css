@@ -1,0 +1,9 @@
+ .addIcon
+{
+margin-bottom: 10px;
+cursor: pointer;
+}
+.form-group label
+{
+  font-weight: bold;
+}

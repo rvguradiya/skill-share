@@ -1,0 +1,367 @@
+<!doctype html>
+<html lang='en'>
+<head>
+<meta charset='utf-8'>
+<title>Some company name</title>
+<script>
+function Employee(vCode,vFirstName,vLastName,vGender,vIsPermanent,vCity)
+{
+this.code=vCode;
+this.firstName=vFirstName;
+this.lastName=vLastName;
+this.gender=vGender;
+this.isPermanent=vIsPermanent;
+this.city=vCity;
+}
+function EmployeeService()
+{
+this.getEmployees=function(successCallBack,errorCallBack)
+{
+var employees=[];
+employees.push(new Employee(106,'Mohan','Gupta','M',true,'Indore'));
+employees.push(new Employee(108,'Pankaj','Gupta','M',true,'Pune'));
+employees.push(new Employee(104,'Rakesh','Gupta','M',false,'Mumbai'));
+employees.push(new Employee(105,'Rita','Gupta','F',true,'Ujjain'));
+employees.push(new Employee(102,'Rohit','Gupta','M',false,'Dewas'));
+employees.push(new Employee(101,'Sameer','Gupta','M',true,'Ujjain'));
+employees.push(new Employee(103,'Sunil','Gupta','M',false,'Delhi'));
+employees.push(new Employee(107,'Varun','Gupta','M',false,'Dewas'));
+successCallBack(employees); }
+this.add=function(employee,successCallBack,errorCallBack){
+employee.code=109;
+successCallBack(employee);
+ }}
+
+function EmployeeModel() 
+{
+this.employees=[]; 
+}
+
+
+function EmployeeView(vModel,vViewId,controller) 
+{
+var viewId=vViewId;
+var model=vModel;
+var THIS=this;
+var img=document.createElement("img");
+img.src='images/loading.gif';
+var view=document.getElementById(viewId);
+var selectedRow=null;
+
+this.showLoader=function() {
+view.innerHTML="";
+view.appendChild(img); }
+
+this.hideLoader=function() {
+view.innerHTML=""; }
+
+this.selectRow=function(rowIndex) {
+var tableBody=document.getElementById("tasdfsblexcvBody43523v");
+tableBody.rows[rowIndex].click(); }
+
+function createTRClickHandler(row,rowIndex) {
+return function(){
+if(selectedRow==row) return;
+if(selectedRow!=null) {
+selectedRow.setAttribute("class","notSelectedRow"); }
+row.setAttribute("class","selectedRow");
+selectedRow=row;
+var detailsViewNameLabel=document.getElementById("detailsViewNameLabel");
+detailsViewNameLabel.innerHTML=model.employees[rowIndex].firstName+" "+model.employees[rowIndex].lastName;
+// do the rest as discussed in the classroom session
+};
+}
+function createEditHandler(row,rowIndex)
+{
+return function(){
+};
+}
+function createDeleteHandler(row,rowIndex)
+{
+return function(){
+};
+}
+this.updateView=function()
+{
+view.innerHTML="";
+var addIcon=document.createElement("img");
+addIcon.src='images/add_icon.png';
+addIcon.onclick=function(){
+document.getElementById("employeeAddDivisionMask").style.visibility="visible";
+}
+addIcon.classList.add('addIcon');
+view.appendChild(addIcon);
+var table=document.createElement("table");
+table.classList.add('gridViewTable');
+var thead=document.createElement("thead");
+var tr=document.createElement("tr");
+var th=document.createElement("th");
+th.innerHTML="S.No.";
+tr.appendChild(th);
+th=document.createElement("th");
+th.innerHTML="Name";
+tr.appendChild(th);
+th=document.createElement("th");
+th.innerHTML="Permanent";
+tr.appendChild(th);
+th=document.createElement("th");
+th.innerHTML="Edit";
+tr.appendChild(th);
+th=document.createElement("th");
+th.innerHTML="Delete";
+tr.appendChild(th);
+thead.appendChild(tr);
+table.appendChild(thead);
+var tbody=document.createElement("tbody");
+tbody.id='tasdfsblexcvBody43523v';
+var td;
+for(var i=0;i<model.employees.length;i++)
+{
+var editIcon=document.createElement("img");
+editIcon.src='images/edit_icon.png';
+var deleteIcon=document.createElement("img");
+deleteIcon.src='images/delete_icon.png';
+var checkedIcon=document.createElement("img");
+checkedIcon.src='images/checked_icon.png';
+var uncheckedIcon=document.createElement("img");
+uncheckedIcon.src='images/unchecked_icon.png';
+tr=document.createElement("tr");
+tr.onclick=createTRClickHandler(tr,i);
+//tr.onclick=controller.onEmployeeSelection;
+td=document.createElement("td");
+td.innerHTML=(i+1)+".";
+tr.appendChild(td);
+td=document.createElement("td");
+td.innerHTML=model.employees[i].firstName+" "+model.employees[i].lastName;
+tr.appendChild(td);
+td=document.createElement("td");
+if(model.employees[i].isPermanent)
+{
+td.appendChild(checkedIcon);
+}
+else
+{
+td.appendChild(uncheckedIcon);
+}
+tr.appendChild(td);
+editIcon.onclick=createEditHandler(tr,i);
+deleteIcon.onclick=createDeleteHandler(tr,i);
+td=document.createElement("td");
+td.appendChild(editIcon);
+tr.appendChild(td);
+td=document.createElement("td");
+td.appendChild(deleteIcon);
+tr.appendChild(td);
+tbody.appendChild(tr);
+}
+table.appendChild(tbody);
+view.appendChild(table); }}
+
+
+
+
+
+
+function EmployeeController(viewId) 
+{
+var service=new EmployeeService();
+var model=new EmployeeModel();
+var view=new EmployeeView(model,viewId,this);
+view.showLoader();
+service.getEmployees(function(employees){
+model.employees=employees;
+view.hideLoader();
+view.updateView();
+},function(error){
+view.hideLoader();
+alert(error); // we will change it later on to something like, oops blah blah blah
+});
+
+
+
+this.add=function(employee,successCallBack,errorCallBack)
+{
+service.add(employee,function(employee){
+for(var i=0;i<model.employees.length;i++) {
+if(model.employees[i].firstName==employee.firstName) {
+if(model.employees[i].lastName>employee.lastName) break; }
+if(model.employees[i].firstName>employee.firstName) break; }
+model.employees.splice(i,0,employee);
+view.updateView();
+view.selectRow(i);
+successCallBack();
+},function(error){
+errorCallBack(error);
+});
+ } //add function ends
+
+this.onEmployeeSelection;
+
+}//class EmployeeController ends
+
+
+
+
+
+
+
+
+var employeeController;
+// the following code is being written by Ramesh
+function initialize() {
+employeeController=new EmployeeController('employeesGridView');
+
+employeeController.onEmployeeSelection=function(employee){
+alert(employee.firstName+", selected");
+};
+/*
+employeeController.onEdit=function(employee){
+alert(employee.firstName+", edit clicked")
+};
+employeeController.onDelete=function(employee){
+alert(employee.firstName+", delete clicked");
+};
+*/
+}
+function addEmployee()
+{
+var frm=document.getElementById("employeeAddForm");
+var firstName=frm.firstName.value.trim();
+var lastName=frm.lastName.value.trim();
+var city=frm.city.value;
+var gender;
+if(frm.gender[0].checked) gender="M";
+if(frm.gender[1].checked) gender="F";
+var isParmenent=(frm.isPermanent.checked)?"Y":"N";
+employeeController.add(new Employee(0,firstName,lastName,gender,isParmenent,city),function(){
+frm.reset();
+document.getElementById("employeeAddDivisionMask").style.visibility="hidden";
+},function(error){
+alert(error); // cannot do anything about it, right now
+});
+}
+window.addEventListener('load',initialize);
+</script>
+<!-- following are CSS Styles (Cascading Style Sheet) -->
+<style>
+.addIcon
+{
+float:right;
+margin-bottom: 10px;
+cursor: pointer;
+}
+.selectedRow
+{
+background: black;
+color: white;
+}
+.notSelectedRow
+{
+color: black;
+background: white;
+}
+.gridView
+{
+text-align: center;
+padding: 5px; }
+.gridViewTable {
+border: 1px solid gray;
+border-collapse: collapse;
+cellspacing: 0;
+width: 100%; }
+.gridViewTable th {
+
+border: 1px solid gray;
+color:black;
+background: #aabb33; }
+.gridViewTable td {
+border: 1px solid gray;
+text-align: right;
+width:50px;
+padding-left:20px;
+ }
+.gridViewTable td+td
+ {
+cursor: pointer; //iske baad wale sb k upar apply iske pehle wale par nahi mtlb...second column se cursor dikhega ,,,first me nahi
+text-align: left;
+min-width: 150px; 
+}
+
+.gridViewTable td+td+td {
+text-align: center;
+min-width:50px; }
+#employeeAddDivision {
+color:red;
+height: 300px;
+width: 500px;
+left:50%;
+top: 50%;
+position: absolute;
+margin: auto;
+margin-left: -250px;
+margin-top: -100px;
+border: 1px solid black;
+background: white;
+}
+#employeeAddDivisionMask {
+left: 0px;
+top: 0px;
+position: absolute;
+width:100%;
+height: 100%;
+background-image: url('images/mask.jpg');
+visibility: hidden; }
+#employeeAddDivisionTitleBar {
+width: 100%;
+background: black;
+height: 25px;
+color:white;
+font-size:13pt;
+padding: 1px; }
+.modalCloseIcon {
+float:right;
+cursor: pointer; }
+#employeeAddDivisionContent {
+padding: 20px; }
+.detailsView {
+border: 1px solid black;
+width: 100%;
+padding:10px; }
+</style>
+</head>
+<body>
+<h1>Employees</h1>
+<div id='employeesGridView' class='gridView'>
+</div>
+<div id='employeesDetailView' class='detailsView'>
+<!-- format it as per your needs -->
+Name <label id='detailsViewNameLabel'></label><br>
+Gender <label id='detailsViewGenderLabel'></label><br>
+Is Permanent<label id='detailsViewIsPermanentLabel'></label><br>
+City<label id='detailsViewCityLabel'></label><br>
+</div>
+<div id='employeeAddDivisionMask'>
+<div id='employeeAddDivision'>
+<div id='employeeAddDivisionTitleBar'>
+Add Employee
+<img src='images/close_icon.png' class='modalCloseIcon'
+onclick='javascript:document.getElementById("employeeAddDivisionMask").style.visibility="hidden"
+'>
+</div>
+<div id='employeeAddDivisionContent'>
+<form id='employeeAddForm'>
+<!-- format the layout as per your needs -->
+First name <input type='text' id='firstName' name='firstName'><br>
+Last name <input type='text' id='lastName' name='lastName'><br>
+Gender &nbsp;&nbsp;&nbsp;Male<input type='radio' id='male' name='gender'>
+&nbsp;&nbsp;&nbsp;Female<input type='radio' id='female' name='gender'>
+<br>
+Is Permanent<input type='checkbox' id='isPermanent' name='isPermanent'><br>
+City<input type='text' id='city' name='city'><br>
+<button type='button' onclick='addEmployee()'>Add</button>
+</form>
+</div>
+</div>
+</div>
+</body>
+</html>

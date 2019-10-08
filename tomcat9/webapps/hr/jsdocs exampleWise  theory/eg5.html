@@ -1,0 +1,70 @@
+<!doctype html>
+<html lang='en'>
+<head>
+<meta charset='utf-8'>
+<title>Some company name</title>
+<script>
+function Employee(vCode,vName,vGender)
+{
+this.code=vCode;
+this.name=vName;
+this.gender=vGender;
+}
+var employees=[]; // global variable employees pointing to an empty array type object
+function populateDataStructure() {
+employees.push(new Employee(101,"Sameer","M"));
+employees.push(new Employee(102,"Rohan","M"));
+employees.push(new Employee(103,"Rita","F"));
+employees.push(new Employee(104,"Bala","M")); }
+function updateView() {
+alert("HG");
+var tbl=document.getElementById('tbl');
+var tbd=tbl.getElementsByTagName("tbody")[0];
+for(var i=0;i<employees.length;i++) {
+var tr=document.createElement("tr");
+var cell1=document.createElement("td");
+cell1.innerHTML=(i+1);
+var cell2=document.createElement("td");
+cell2.innerHTML=(employees[i].code);
+var cell3=document.createElement("td");
+cell3.innerHTML=(employees[i].name);
+var cell4=document.createElement("td");
+cell4.style.textAlign='center';
+//cell4.innerHTML=(employees[i].gender);
+var img=document.createElement("img");
+if(employees[i].gender=='M') {
+img.src='images/male_icon.png'; }
+else {
+img.src='images/female_icon.png'; }
+cell4.appendChild(img);
+tr.appendChild(cell1);
+tr.appendChild(cell2);
+tr.appendChild(cell3);
+tr.appendChild(cell4);
+tbd.appendChild(tr); }
+}
+
+
+function setupView() {
+populateDataStructure();
+setTimeout(updateView,3000);
+//updateView();
+ }
+window.addEventListener('load',setupView,true);
+</script>
+</head>
+<body>
+<table border='1' id='tbl'>
+<thead>
+<tr>
+<th>S.No.</th>
+<th>Code</th>
+<th>Name</th>
+<th>Gender</th>
+</tr>
+</thead>
+<tbody>
+</tbody>
+</table>
+</body>
+</html>

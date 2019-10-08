@@ -1,0 +1,242 @@
+<!doctype html>
+<html lang='en'>
+<head>
+<meta charset='utf-8'>
+<title>some company name</title>
+<script>
+function Employee(vCode,vFirstName,vLastName,vGender,vIsPermanent,vContact,vCity)
+{
+this.code=vCode;
+this.firstName=vFirstName;
+this.lastName=vLastName;
+this.gender=vGender;
+this.isPermanent=vIsPermanent;
+this.city=vCity;
+this.contact=vContact;
+}
+function EmployeeService()
+{
+this.getEmployees=function(successCallBack,errorCallBack)
+{
+var employees=[];
+employees.push(new Employee(101,'nandan','sharma','M',true,'9425991888','Agar'));
+employees.push(new Employee(102,'dandan','dwivedi','M',true,'9425991888','Sgar'));
+employees.push(new Employee(103,'fandan','trivedi','M',true,'9425991888','Ggar'));
+employees.push(new Employee(104,'gandan','chaturvedi','M',true,'9425991888','Bgar'));
+successCallBack(employees);
+}
+}
+function EmployeeModel()
+{
+this.employees=[];
+}
+
+function EmployeeView(vModel,vViewId)
+{
+var viewId=vViewId;
+var model=vModel;
+var THIS=this;
+var img=document.createElement("img");
+img.src='images/loading.gif';
+var view=document.getElementById(viewId);
+alert(view);
+this.showLoader=function()
+{
+view.innerHTML="";
+view.appendChild(img);
+}
+this.hideLoader=function()
+{
+view.innerHTML="";
+}
+this.updateView=function()
+{
+var addIcon=document.createElement("img");
+addIcon.src='images/add_icon.png';
+addIcon.classList.add('addIcon');
+view.appendChild(addIcon);
+var table=document.createElement("table");
+table.style.font="italic";
+table.style.background="powderblue";
+table.classList.add('gridViewTable');
+
+var thead=document.createElement("thead");
+var tr=document.createElement("tr");
+var th=document.createElement("th");
+th.innerHTML="S.no.";
+tr.appendChild(th);
+
+th=document.createElement("th");
+th.innerHTML="Name";
+tr.appendChild(th);
+th=document.createElement("th");
+th.innerHTML="Gender";
+tr.appendChild(th);
+
+th=document.createElement("th");
+th.innerHTML="Permanent";
+tr.appendChild(th);
+th=document.createElement("th");
+th.innerHTML="Contact";
+tr.appendChild(th);
+th=document.createElement("th");
+th.innerHTML="City";
+tr.appendChild(th);
+th=document.createElement("th");
+th.innerHTML="Edit";
+tr.appendChild(th);
+th=document.createElement("th");
+th.innerHTML="Delete";
+tr.appendChild(th);
+thead.appendChild(tr);
+table.appendChild(thead);
+var tbody=document.createElement("tbody");
+var td;
+for(var i=0;i<model.employees.length;i++)
+{
+var maleIcon=document.createElement("img");
+maleIcon.src='images/male_icon.png';
+var femaleIcon=document.createElement("img");
+femaleIcon.src='images/female_icon.png';
+var editIcon=document.createElement("img");
+editIcon.src='images/edit_icon.png';
+var deleteIcon=document.createElement("img");
+deleteIcon.src='images/delete_icon.png';
+var checkedIcon=document.createElement("img");
+checkedIcon.src='images/checked_icon.png';
+var uncheckedIcon=document.createElement("img");
+uncheckedIcon.src='images/unchecked_icon.png';
+tr=document.createElement("tr");
+td=document.createElement("td");
+td.innerHTML=(i+1)+".";
+tr.appendChild(td);
+td=document.createElement("td");
+td.innerHTML=model.employees[i].firstName+" "+model.employees[i].lastName;
+tr.appendChild(td);
+td=document.createElement("td");
+if(model.employees[i].gender=='M')
+{
+td.appendChild(maleIcon);
+}
+else
+{
+td.appendChild(femaleIcon);
+}
+tr.appendChild(td);
+td=document.createElement("td");
+if(model.employees[i].isPermanent)
+{
+td.appendChild(checkedIcon);
+}
+else
+{
+td.appendChild(uncheckedIcon);
+}
+tr.appendChild(td);
+td=document.createElement("td");
+td.innerHTML=model.employees[i].contact;
+tr.appendChild(td);
+td=document.createElement("td");
+td.innerHTML=model.employees[i].city;
+tr.appendChild(td);
+td=document.createElement("td");
+td.appendChild(editIcon);
+tr.appendChild(td);
+td=document.createElement("td");
+td.appendChild(deleteIcon);
+tr.appendChild(td);
+tbody.appendChild(tr);
+}
+table.appendChild(tbody);
+alert("chala1");
+view.appendChild(table);
+}
+}
+
+
+function EmployeeController(viewId)
+{
+var service=new EmployeeService();
+var model=new EmployeeModel();
+var view=new EmployeeView(model,viewId);
+view.showLoader();
+service.getEmployees(function(employees){
+model.employees=employees;
+alert("chala");
+view.hideLoader();
+view.updateView();
+
+},function(error){
+view.hideLoader();
+alert(error);
+});
+}
+var employeeController;
+function initialize()
+{
+employeeController=new EmployeeController('employeesGridView');
+}
+window.addEventListener('load',initialize);
+</script>
+
+<!--following are css styles-->
+<style>
+.addIcon
+{
+float:right;
+margin-bottom:10px;
+cursor:pointer;
+}
+.gridView
+{
+text-align:center;
+padding:5px;
+}
+.gridViewTable
+{
+border:1px solid black;
+border-collapse:collapse;
+cellspacing: 0;
+width: 100%;
+}
+
+.gridViewTable th
+{
+border:1px solid black;
+color:black;
+backgroung:#aabb33;
+}
+.gridViewTable td
+{
+border:1px solid black;
+text-align:right;
+width:50px;
+padding-left:2px;
+}
+.gridViewTable td+ td
+{
+text-align:left;
+min-width:150px;
+}
+
+.gridViewTable td +td+td
+{
+text-align:center;
+min-width:50px;
+}
+
+
+</style>
+</head>
+<body>
+<h1>Employees</h1>
+<div id='employeesGridView'class='gridView'>
+</div>
+<div id='employeeAddDivisionMask'>
+<div id='employeeAddDivision'>
+blah blah blah
+</div>
+</div>
+
+</body>
+</html>

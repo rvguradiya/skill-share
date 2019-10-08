@@ -1,0 +1,423 @@
+<!doctype html>
+<!-initially we write all code for javascript html and css in a singlr file->
+<html lang='en'>
+<head>
+<meta charset='utf-8'>
+<title>Some company name</title>
+
+<script>
+//script starts
+
+
+//jis entity k liye module bana rahe he uski class ,   and parameterized constructor
+function Employee(vCode,vFirstName,vLastName,vGender,vIsPermanent,vCity)
+{
+this.code=vCode;
+this.firstName=vFirstName;
+this.lastName=vLastName;
+this.gender=vGender;
+this.isPermanent=vIsPermanent;
+this.city=vCity;
+}
+
+//professional developers : code separation,MVC
+//model || view || controller
+//helper class service : this class helps to send data to server and fetch data from server
+//is file me 4 classes
+//EmployeeService,EmployeeModel,EmployeeView,EmployeeController
+//EmployeeModel:it has property which contains data,means it has data structure like array of employee objects
+//EmployeeView: it takes data from model and take id of a html document section and display data there
+//dynamically creates table and fill data in it and append that table to that html section
+
+
+function EmployeeService()
+{
+
+this.getEmployees=function(successCallBack,errorCallBack)
+{
+var employees=[];
+employees.push(new Employee(106,'Mohan','Gupta','M',true,'Indore'));
+employees.push(new Employee(108,'Pankaj','Gupta','M',true,'Pune'));
+employees.push(new Employee(104,'Rakesh','Gupta','M',false,'Mumbai'));
+employees.push(new Employee(105,'Rita','Gupta','F',true,'Ujjain'));
+employees.push(new Employee(102,'Rohit','Gupta','M',false,'Dewas'));
+employees.push(new Employee(101,'Sameer','Gupta','M',true,'Ujjain'));
+employees.push(new Employee(103,'Sunil','Gupta','M',false,'Delhi'));
+employees.push(new Employee(107,'Varun','Gupta','M',false,'Dewas'));
+successCallBack(employees);
+}
+
+this.add=function(employee,successCallBack,errorCallBack){
+employee.code=109;
+successCallBack(employee);
+}
+}
+function EmployeeModel()
+{
+this.employees=[];
+}
+function EmployeeView(vModel,vViewId)
+{
+var viewId=vViewId;
+var model=vModel;
+var THIS=this;
+var img=document.createElement("img");
+img.src='images/loading.gif';
+var view=document.getElementById(viewId);
+this.showLoader=function()
+{
+view.innerHTML="";
+view.appendChild(img);
+}
+this.hideLoader=function()
+{
+view.innerHTML="";
+}
+this.updateView=function()
+{
+view.innerHTML="";
+var addIcon=document.createElement("img");
+addIcon.src='images/add_icon.png';
+addIcon.onclick=function(){
+document.getElementById("employeeAddDivisionMask").style.visibility="visible";
+}
+addIcon.classList.add('addIcon');
+view.appendChild(addIcon);
+var table=document.createElement("table");
+table.classList.add('gridViewTable');
+var thead=document.createElement("thead");
+var tr=document.createElement("tr");
+var th=document.createElement("th");
+th.innerHTML="S.No.";
+tr.appendChild(th);
+th=document.createElement("th");
+th.innerHTML="Name";
+tr.appendChild(th);
+th=document.createElement("th");
+th.innerHTML="Gender";
+tr.appendChild(th);
+th=document.createElement("th");
+th.innerHTML="Permanent";
+tr.appendChild(th);
+th=document.createElement("th");
+th.innerHTML="City";
+tr.appendChild(th);
+th=document.createElement("th");
+th.innerHTML="Edit";
+tr.appendChild(th);
+th=document.createElement("th");
+th.innerHTML="Delete";
+tr.appendChild(th);
+thead.appendChild(tr);
+table.appendChild(thead);
+var tbody=document.createElement("tbody");
+var td;
+for(var i=0;i<model.employees.length;i++)
+{
+var maleIcon=document.createElement("img");
+maleIcon.src='images/male_icon.png';
+var femaleIcon=document.createElement("img");
+femaleIcon.src='images/female_icon.png';
+var editIcon=document.createElement("img");
+editIcon.src='images/edit_icon.png';
+var deleteIcon=document.createElement("img");
+deleteIcon.src='images/delete_icon.png';
+var checkedIcon=document.createElement("img");
+checkedIcon.src='images/checked_icon.png';
+var uncheckedIcon=document.createElement("img");
+uncheckedIcon.src='images/unchecked_icon.png';
+tr=document.createElement("tr");
+td=document.createElement("td");
+td.innerHTML=(i+1)+".";
+tr.appendChild(td);
+td=document.createElement("td");
+td.innerHTML=model.employees[i].firstName+" "+model.employees[i].lastName;
+tr.appendChild(td);
+td=document.createElement("td");
+if(model.employees[i].gender=='M')
+{
+td.appendChild(maleIcon);
+}
+else
+{
+td.appendChild(femaleIcon);
+}
+tr.appendChild(td);
+td=document.createElement("td");
+if(model.employees[i].isPermanent)
+{
+td.appendChild(checkedIcon);
+}
+else
+{
+td.appendChild(uncheckedIcon);
+}
+tr.appendChild(td);
+td=document.createElement("td");
+td.innerHTML=model.employees[i].city;
+tr.appendChild(td);
+td=document.createElement("td");
+td.appendChild(editIcon);
+tr.appendChild(td);
+td=document.createElement("td");
+td.appendChild(deleteIcon);
+tr.appendChild(td);
+tbody.appendChild(tr);
+}
+table.appendChild(tbody);
+view.appendChild(table);
+}
+}
+function EmployeeController(viewId)
+{
+var service=new EmployeeService();
+var model=new EmployeeModel();
+var view=new EmployeeView(model,viewId);
+view.showLoader();
+service.getEmployees(function(employees){
+model.employees=employees;
+view.hideLoader();
+view.updateView();
+},function(error){
+view.hideLoader();
+alert(error); // we will change it later on to something like, oops blah blah blah
+});
+
+
+this.add=function(employee,successCallBack,errorCallBack){
+service.add(employee,function(employee){
+for(var i=0;i<model.employees.length;i++)
+{
+if(model.employees[i].firstName==employee.firstName)
+{
+if(model.employees[i].lastName>employee.lastName) break;
+}
+if(model.employees[i].firstName>employee.firstName) break;
+}
+model.employees.splice(i,0,employee);
+view.updateView();
+successCallBack();
+},function(error){
+errorCallBack(error);
+});
+}
+}
+
+
+
+
+var employeeController;
+function initialize()
+{
+employeeController=new EmployeeController('employeesGridView');
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+function addEmployee()
+{
+var frm=document.getElementById("employeeAddForm");
+var firstName=frm.firstName.value.trim();
+var lastName=frm.lastName.value.trim();
+var city=frm.city.value;
+var gender;
+if(frm.gender[0].checked) gender="M";
+if(frm.gender[1].checked) gender="F";
+var isParmenent=(frm.isPermanent.checked)?"Y":"N";
+employeeController.add(new Employee(0,firstName,lastName,gender,isParmenent,city),function(){
+frm.reset();
+document.getElementById("employeeAddDivisionMask").style.visibility="hidden";
+},function(error){
+alert(error); // cannot do anything about it, right now.,,,message of cannot add due to some reason
+});
+}
+window.addEventListener('load',initialize);
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- following are CSS Styles (Cascading Style Sheet) -->
+<style>
+.addIcon
+{
+float:right; //wo icon division ki right border se chipak jayega
+margin-bottom: 10px; //only botton se 10px ka margin ..............px jese pt bhi hota he
+//margin:10px charo taraf se margin
+cursor: pointer;   //us icon par cursor jayega to pointer ban jayega
+}
+.gridView
+{
+text-align: center;  //is division me saare text center alighn rahege.....or is division k ander k elemet bhi center align hi rahege yadi unke upar alag se koi class nhi lagai to
+padding: 5px;
+//is division k ander jo table banegi vo charo taraf se 5 px ka margi degi is division ki border ko
+//ye class humne us division ko assign kari jisme dynamically table banegi
+}
+.gridViewTable
+{
+//EmployeeView class ki updateView method me humne jo dynamically table create ki h usko ye class assign kari h'
+//uska syntax : table.classList.add('gridViewTable');
+//one more sytax : table.setAttribute("class","gridViewTable");
+
+border: 1px solid gray; //us table ki border
+border-collapse: collapse; //collapse mtlb 2 cells ki boundry overlape hokar single boudry me convert ho jayegi,uske liye cellspacing 0 karna pdegi
+cellspacing: 0;  ,
+width: 100%;  //width 100% mtlb us division ki width ki 100% jisme ye table he
+
+}
+.gridViewTable th //us table k header section ki css
+{
+border: 1px solid gray;
+color:black;
+background: #aabb33; 
+}
+.gridViewTable td {  //us table k first column ki css,,,ye css aage k sbhi columns k liye bhi apply hogi...yadi unhone override nhi kiya to
+border: 1px solid gray;
+text-align: right;
+width:50px;
+padding-left:2px; }
+.gridViewTable td+td { //us table k second column ki css,,first column ki css is par bhi aply hogi yadi us css ko isme override nahi kiya to
+	//border ko override nhi kiye to vo first column vali apply ho jayegi
+text-align: left;    //text align ko override kiya ,,,,
+min-width: 150px; //width ko override karne ke liye min-width
+}
+.gridViewTable td+td+td { //us table k third column ki css
+text-align: center;
+min-width:50px; }
+.gridViewTable td+td+td+td { //us table k 4th  column ki css
+text-align: center;
+min-width:50px; }
+.gridViewTable td+td+td+td+td { //us table k 5th column ki css
+text-align: left;
+min-width:50px; }
+.gridViewTable td+td+td+td+td+td {
+text-align: center;
+min-width:50px; }
+
+
+#employeeAddDivision {
+color:red; //means forground color is red ....jo bhi text likhege unka colour red hoga
+height: 300px;   // is division ki size 
+width: 500px;//mtlb kine size ka rectangle dikhega
+
+left: 50%;   //left and top margin 50% means ye division center me dikhega
+top: 50%; //position absolute kar di taki jo location decide kari vo hi location par ye rectangle dikhe
+position: absolute;//eg .absolute left,top 50% par ja k set ho jayega
+margin :auto;
+margin-left: -250px; //mtlb left 50 % k baad draw hua to and iski width 500px to center se agge nikal gaya ,,,so center me laane k liye -250 margin de diya
+margin-top: -100px;//similarly top se 50% k baad height 300px to center me laane k liye phir top margin -100 ya -150(height ka half) bhi kar skte h ..so exact center me dikhega
+border: 1px solid black;//ye to hamesha karna he
+background: white;
+ }
+#employeeAddDivisionMask {
+left: 0px;  //jis container k ander ye he use pura cover karne k liye left margin 0px and top margin 0px ,,,,means puri diplay cover kar lega 
+top: 0px;
+position: absolute; //absolute means jo margin humne diya h exact usi position par rakhega....With absolute positioning, an element can be placed anywhere on a page
+	           //means ab absoute left me 0 and top me 0 margin rakh k division ko draw karega
+width:100%;//stretch to fit the whole width and height of the browser window...means ye division puri browser window ko cover kar lega
+height: 100%;
+background-image: url('images/mask.jpg');
+visibility: hidden; //default visibilty hidden
+//now we place  a single division inside it as AddDivision
+// now we put two division inside the AddDivision which are AddDivisionTitleBar and addDivisionContent
+}
+#employeeAddDivisionTitleBar {
+width: 100%; //width to 100% jo us rectangle(AddDivision ki h),,,but height 25px
+background: black;
+height: 25px;
+color:white;  //foreground color white
+font-size:13pt;
+padding: 1px;  //padding means iske ander ka content iski border se kitni jagah chhodega charo taraf se
+//padding yadi px kar di jaaye to titlebar adddivision se bahar nikal jayega 
+//matlab padding badane se border bdti jaati he
+}
+.modalCloseIcon {
+float:right; //title bar me right ki taraf chipka diya
+cursor: pointer;
+ }
+#employeeAddDivisionContent {
+
+padding: 20px; 
+// padding 20 px means iske ander jo form banega vo charo taraf se 20 pixel ki jagah khali rakhega is addDivision k ander
+//means padding is given to taki content border se chipak k na aaye
+//or ek division k ander k do division aapas me chipke na to outer division me padding de do
+//coz the inner two are content of outer one
+
+}
+</style>
+
+
+
+
+</head>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<body>
+<h1>Employees</h1>
+<div id='employeesGridView' class='gridView'>   //is division k upar css class 'grigView' apply hogi
+</div>
+<div id='employeeAddDivisionMask'>
+<div id='employeeAddDivision'>
+<div id='employeeAddDivisionTitleBar'>
+Add Employee
+<img src='images/close_icon.png'  class='modalCloseIcon' onclick='javascript:document.getElementById("employeeAddDivisionMask").style.visibility="hidden"'>
+//iske click hone par javascript chalega jo ki ADDdivisionMask ki visibility ko hide kar dega
+//javascript alag se function bana k use call karne ki bajay yahi par likh diya javascript: krke
+//ye to html me javascript likhne ka tarika 
+//javascript file me ye kaam karne ka tarrika ye :
+//document.getElementById("employeeAddDivisionMask").style.visibility="visible";  
+//mtlb html me style="here" and js me element.style.jobhistyle ho
+</div>
+<div id='employeeAddDivisionContent'>
+<form id='employeeAddForm'>
+<!-- format the layout as per your needs -->
+First name <input type='text' id='firstName' name='firstName'><br>
+Last name <input type='text' id='lastName' name='lastName'><br>
+Gender &nbsp;&nbsp;&nbsp;Male<input type='radio' id='male' name='gender'>
+&nbsp;&nbsp;&nbsp;Female<input type='radio' id='female' name='gender'>
+<br>
+Is Permanent<input type='checkbox' id='isPermanent' name='isPermanent'><br>
+City<input type='text' id='city' name='city'><br>
+<button type='button' onclick='addEmployee()'>Add</button>
+</form>
+</div>
+</div>
+</div>
+</body>
+</html>

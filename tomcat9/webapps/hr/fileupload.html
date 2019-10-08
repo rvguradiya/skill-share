@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>File Upload Example</title>
+		
+	</head>
+	<body>
+		<form action="/hr/upload" method="POST" enctype="multipart/form-data">
+			
+    <input type="text" name="description" />
+    <input type="file" name="file" />
+    <input type="submit" />
+</form>
+	</body>
+	<script type="text/javascript">
+			
+		
+		document.getElementById('fileToUpload').addEventListener('change', function (event) {
+  const files = event.target.files;
+  alert("helo");
+  alert(files);
+  for (var i = 0, file; file = files[i]; i++) {
+    alert(file);
+  }
+},false);
+		</script>
+</html>

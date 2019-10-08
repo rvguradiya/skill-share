@@ -1,0 +1,111 @@
+<!Doctype html>
+<html lang='en'>
+<head>
+<meta charset='utf-8'>
+<title>some company name</title>
+</head>
+<script>
+//this file is designed only to tell how show loader and hide loader
+
+function Employees(vCode,vName,vGender,vIsPermanent,vCity)
+{
+this.code=vCode;
+this.name=vName;
+this.gender=vGender;
+this.isPermanent=vIsPermanent;
+this.city=vCity;
+}
+
+function EmployeeModel()
+{
+//model contains data;
+this.employees=[];
+}
+
+function EmployeeView(vModel,vViewId)
+{
+var model=vModel;
+var viewId=vViewId;
+var THIS=this; //EmployeeView ka address
+var img=document.createElement("img");
+img.src='images/loading.gif';
+var view=document.getElementById(viewId);
+this.showLoader=function()
+{
+view.innerHTML="";
+view.appendChild(img);
+}
+this.hideLoader=function()
+{
+view.innerHTML="";
+}
+this.updateView=function()
+{
+var addIcon=document.createElement("img");
+addIcon.src='images/add_icon.png';
+addIcon.classList.add('addIcon'); //attaach css class with this element for styling float left
+view.appendChild(addIcon);
+view.innerHTML="hello world";
+
+
+}
+
+}
+
+function EmployeeService()
+{
+this.getEmployees=function(successCallBack,errorCallBack)
+{
+var employees=[];
+successCallBack(employees);
+}
+}
+
+
+
+function EmployeeController(viewId)
+{
+var service=new EmployeeService();
+var model=new EmployeeModel();
+var view=new EmployeeView(model,viewId);
+view.showLoader();
+/*service.getEmployees(function(employees){
+model.employees=employees;
+view.hideLoader();
+view.updateView();
+},function(error){
+view.hideLoader();
+alert(error);//later we will change it based on server error
+});*/
+}
+var employeeController;
+function initialize()
+{
+employeeController=new EmployeeController('employeesGridView');
+}
+window.addEventListener('load',initialize);
+
+
+
+</script>
+<style>
+.addIcon {
+float:right;
+margin-bottom: 10px;
+cursor: pointer; }
+</style>
+</head>
+
+
+
+<body>
+<h1>Employees</h1>
+<div id='employeesGridView' class='gridView'>
+</div>
+<div id='employeeAddDivisionMask'>
+<div id='employeeAddDivision'>
+blah blah blah
+</div>
+</div>
+</body>
+</html>

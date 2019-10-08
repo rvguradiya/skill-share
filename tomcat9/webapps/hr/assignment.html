@@ -1,0 +1,44 @@
+<!doctype html>
+<html lang='en'>
+<head>
+<meta charset='utf-8'>
+<title>Some company name</title>
+<script>
+function Bulb() {
+this.wattage=100;
+this.price=10;
+this.brand="Philips"; }
+function doSomething() {
+var b=new Bulb();
+//how to know  name of properties of a class in javascript
+//print their name 
+//also print their value 
+var a=Object.getOwnPropertyNames(b);
+var temp=[];
+
+//temp=a.split(","); fails here
+temp=a;
+alert(temp.length);
+alert("cala1"+" k "+a);
+alert(temp[0]);
+alert(temp[1]);
+alert(temp[2]);
+var arr=document.getElementsByTagName("span");
+arr[0].innerHTML=b.wattage;
+arr[1].innerHTML=b.price;
+arr[2].innerHTML=b[temp[2]];
+// assignment : write code to diplay names of all properties of class Bulb
+// then write to code print their values.
+// Note : you cannot write the words wattage,price and brand 
+}
+//alert("fhncjd");
+</script>
+</head>
+<body>
+<span id='p1' color="red"></span></br>
+<span id='p2' color="red"></span><br>
+<span id='p3' color="red"></span><br>
+
+<button type='button' onclick='doSomething()'>Click me</button>
+</body>
+</html>

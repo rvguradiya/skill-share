@@ -1,0 +1,11 @@
+0:0:0:0:0:0:0:1 - - [03/Apr/2019:01:48:11 +0530] "GET /hr/i1.jsp HTTP/1.1" 404 1087
+0:0:0:0:0:0:0:1 - - [03/Apr/2019:01:48:30 +0530] "GET /hr/Employee.html HTTP/1.1" 200 16035
+0:0:0:0:0:0:0:1 - - [03/Apr/2019:01:48:30 +0530] "GET /hr/images/close_icon.png HTTP/1.1" 200 929
+0:0:0:0:0:0:0:1 - - [03/Apr/2019:01:48:30 +0530] "GET /hr/images/mask.jpg HTTP/1.1" 200 33836
+0:0:0:0:0:0:0:1 - - [03/Apr/2019:01:48:30 +0530] "GET /hr/images/loading.gif HTTP/1.1" 200 77661
+0:0:0:0:0:0:0:1 - - [03/Apr/2019:01:48:32 +0530] "GET /hr/getEmployees HTTP/1.1" 200 -
+0:0:0:0:0:0:0:1 - - [03/Apr/2019:02:03:49 +0530] "GET /skillshare/homePage.jsp HTTP/1.1" 200 15601
+0:0:0:0:0:0:0:1 - - [03/Apr/2019:02:04:02 +0530] "POST /skillshare/login HTTP/1.1" 302 -
+0:0:0:0:0:0:0:1 - - [03/Apr/2019:02:04:02 +0530] "GET /skillshare/homePage.jsp HTTP/1.1" 200 16528
+0:0:0:0:0:0:0:1 - - [03/Apr/2019:02:04:57 +0530] "GET /skillshare/postDetails.jsp HTTP/1.1" 200 11844
+0:0:0:0:0:0:0:1 - - [03/Apr/2019:02:05:20 +0530] "GET /skillshare/homePage.jsp HTTP/1.1" 200 16528

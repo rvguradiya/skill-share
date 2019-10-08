@@ -1,0 +1,91 @@
+
+<!Doctype html>
+<html lang='en'>
+<head>
+<meta charset='utf-8'>
+<title>some company name</title>
+<script>
+function Employee(vCode,vName,vGender)
+{
+this.code=vCode;
+this.name=vName;
+this.gender=vGender;
+}
+
+var employees=[];    //type is decided when we assign the value to varia ble
+function populateDataStructure()
+{
+//this function fetch data from databse and fill the ds array employee[]
+employees.push(new Employee(101,"sameer","M"));
+employees.push(new Employee(102,"ameer","M"));
+employees.push(new Employee(103,"tameer","M"));
+employees.push(new Employee(104,"pameer","F"));
+//alert(employees.length);
+//alert("populateDataStructure chala");
+}
+
+function updateView()
+{
+var tbl=document.getElementById('tbl');
+var tbd=tbl.getElementsByTagName("tbody")[0]; //one table may have sevral bodies
+
+for(var i=0;i<employees.length;i++)
+{
+var tr=document.createElement("tr");
+var cell1=document.createElement("td");
+cell1.innerHTML=(i+1);
+var cell2=document.createElement("td");
+cell2.innerHTML=(employees[i].code);
+var cell3=document.createElement("td");
+cell3.innerHTML=(employees[i].name);
+var cell4=document.createElement("td");
+cell4.style.textAlign='center';
+var img=document.createElement("img");
+if(employees[i].gender=='M')
+{
+img.src='images/male_icon.png';
+}
+else
+{
+img.src='images/female_icon.png';
+}
+cell4.appendChild(img);
+tr.appendChild(cell1);
+tr.appendChild(cell2);
+tr.appendChild(cell3);
+tr.appendChild(cell4);
+tbd.appendChild(tr);
+
+}//loop ends
+
+}//function updateView ends
+
+
+
+
+//the below funtion is to set up the view,means invoke populateDatastructure and then invoke updateView
+function setupView()
+{
+//alert("setupView chala");
+populateDataStructure();
+updateView();
+}
+window.addEventListener('load',setupView);
+</script>
+</head>
+<body>
+
+<table border='1' id='tbl'>
+<thead>
+<tr>
+<th>S.no.</th>
+<th>code</th>
+<th>name</th>
+<th>Gender</th>
+</tr>
+</thead>
+<tbody>
+</tbody>
+</table>
+</body>
+</html>

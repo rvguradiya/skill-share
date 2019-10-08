@@ -1,0 +1,592 @@
+<!doctype html>
+<html lang='en'>
+<head>
+<meta charset='utf-8'>
+<title>Some company name</title>
+<script>
+function Employee(vCode,vFirstName,vLastName,vGender,vIsPermanent,vCity)
+{
+this.code=vCode;
+this.firstName=vFirstName;
+this.lastName=vLastName;
+this.gender=vGender;
+this.isPermanent=vIsPermanent;
+this.city=vCity;
+}
+function EmployeeService()
+{
+this.removeEmployee=function(code,successCallBack,errorCallBack)
+{
+successCallBack();
+}
+this.getEmployees=function(successCallBack,exceptionCallBack,errorCallBack)
+{
+var httpRequest=new XMLHttpRequest();
+httpRequest.onreadystatechange=function(){
+if(this.readyState==4)
+{
+if(this.status==200)
+{
+var applicationResponse=JSON.parse(httpRequest.responseText);
+if(applicationResponse.isSuccess)
+{
+var jsonEmployees=applicationResponse.result;
+var employees=[];
+var e;
+for(var i=0;i<jsonEmployees.length;i++)
+{
+e=new
+Employee(jsonEmployees[i].code,jsonEmployees[i].firstName,jsonEmployees[i].lastName,jsonEmployees[i].gender,jsonEmployees[i].isPermanent,jsonEmployees[i].city);
+employees.push(e);
+}
+successCallBack(employees);
+} // isSuccess Ends
+if(applicationResponse.isException)
+{
+exceptionCallBack(applicationResponse.exception);
+} // isException ends
+if(applicationResponse.isSuccess==false && applicationResponse.isException==false)
+{
+errorCallBack(applicationResponse.error);
+}
+} // 200 ends
+else
+{
+errorCallBack(this.statusText);
+}
+}
+};
+httpRequest.open("GET","getEmployees",true);
+httpRequest.send();
+}
+function generateQueryString(obj)
+{
+var propertyName,propertyValue;
+var qs="";
+var applyAmpersand=false;
+var arr=Object.getOwnPropertyNames(obj);
+var i=0;
+for(i=0;i<arr.length;i++)
+{
+propertyName=arr[i];
+propertyValue=obj[propertyName];
+if(applyAmpersand) qs=qs+"&";
+qs=qs+propertyName+"="+encodeURI(propertyValue);
+applyAmpersand=true;
+}
+return "?"+qs;
+}
+this.add=function(employee,successCallBack,exceptionCallBack,errorCallBack){
+var employeeJSON={
+"code": 0,
+"firstName" : employee.firstName,
+"lastName": employee.lastName,
+"gender" : employee.gender,
+"isPermanent": employee.isPermanent,
+"city": employee.city
+};
+var httpRequest=new XMLHttpRequest();
+httpRequest.onreadystatechange=function(){
+if(this.readyState==4)
+{
+if(this.status==200)
+{
+var applicationResponse=JSON.parse(httpRequest.responseText);
+if(applicationResponse.isSuccess)
+{
+var e=applicationResponse.result;
+var employee=new Employee(e.code,e.firstName,e.lastName,e.gender,e.isPermanent,e.city);
+successCallBack(employee);
+} else if(applicationResponse.isException)
+{
+exceptionCallBack(applicationResponse.exception);
+} else {
+errorCallBack(applicationResponse.error);
+}
+}
+else
+{
+errorCallBack(this.statusText);
+}
+}
+};
+httpRequest.open("POST","addEmployee",true);
+httpRequest.setRequestHeader("content-type","application/x-www-form-urlencoded");
+httpRequest.send(JSON.stringify(employeeJSON));
+}
+}
+function EmployeeModel()
+{
+this.employees=[];
+}
+function EmployeeView(vModel,vViewId) {
+var viewId=vViewId;
+var model=vModel;
+var onEmployeeSelection=null;
+var onEditEmployee=null;
+var onDeleteEmployee=null;
+var THIS=this;
+var img=document.createElement("img");
+img.src='images/loading.gif';
+var view=document.getElementById(viewId);
+var selectedRow=null;
+this.showLoader=function() {
+view.innerHTML="";
+view.appendChild(img); }
+this.hideLoader=function() {
+view.innerHTML=""; }
+this.selectRow=function(rowIndex) {
+var tableBody=document.getElementById("tasdfsblexcvBody43523v");
+tableBody.rows[rowIndex].click(); }
+function createTRClickHandler(row,rowIndex) {
+return function(){
+if(selectedRow==row) return;
+if(selectedRow!=null) {
+selectedRow.setAttribute("class","notSelectedRow"); }
+row.setAttribute("class","selectedRow");
+selectedRow=row;
+if(THIS.onEmployeeSelection!=null) {
+THIS.onEmployeeSelection(model.employees[rowIndex]); }
+}; }
+function createEditHandler(row,rowIndex) {
+return function(){
+if(THIS.onEditEmployee!=null)
+{
+THIS.onEditEmployee(model.employees[rowIndex]);
+}
+};
+}
+function createDeleteHandler(row,rowIndex)
+{
+return function(){
+if(THIS.onDeleteEmployee!=null)
+{
+THIS.onDeleteEmployee(model.employees[rowIndex]);
+}
+};
+}
+this.updateView=function()
+{
+view.innerHTML="";
+var addIcon=document.createElement("img");
+addIcon.src='images/add_icon.png';
+addIcon.onclick=function(){
+document.getElementById("employeeAddDivisionMask").style.visibility="visible";
+}
+addIcon.classList.add('addIcon');
+view.appendChild(addIcon);
+var table=document.createElement("table");
+table.classList.add('gridViewTable');
+var thead=document.createElement("thead");
+var tr=document.createElement("tr");
+var th=document.createElement("th");
+th.innerHTML="S.No.";
+tr.appendChild(th);
+th=document.createElement("th");
+th.innerHTML="Name";
+tr.appendChild(th);
+th=document.createElement("th");
+th.innerHTML="Permanent";
+tr.appendChild(th);
+th=document.createElement("th");
+th.innerHTML="Edit";
+tr.appendChild(th);
+th=document.createElement("th");
+th.innerHTML="Delete";
+tr.appendChild(th);
+thead.appendChild(tr);
+table.appendChild(thead);
+var tbody=document.createElement("tbody");
+tbody.id='tasdfsblexcvBody43523v';
+var td;
+for(var i=0;i<model.employees.length;i++)
+{
+var editIcon=document.createElement("img");
+editIcon.src='images/edit_icon.png';
+var deleteIcon=document.createElement("img");
+deleteIcon.src='images/delete_icon.png';
+var checkedIcon=document.createElement("img");
+checkedIcon.src='images/checked_icon.png';
+var uncheckedIcon=document.createElement("img");
+uncheckedIcon.src='images/unchecked_icon.png';
+tr=document.createElement("tr");
+tr.onclick=createTRClickHandler(tr,i);
+td=document.createElement("td");
+td.innerHTML=(i+1)+".";
+tr.appendChild(td);
+td=document.createElement("td");
+td.innerHTML=model.employees[i].firstName+" "+model.employees[i].lastName;
+tr.appendChild(td);
+td=document.createElement("td");
+if(model.employees[i].isPermanent)
+{
+td.appendChild(checkedIcon);
+}
+else
+{
+td.appendChild(uncheckedIcon);
+}
+tr.appendChild(td);
+editIcon.onclick=createEditHandler(tr,i);
+deleteIcon.onclick=createDeleteHandler(tr,i);
+td=document.createElement("td");
+td.appendChild(editIcon);
+tr.appendChild(td);
+td=document.createElement("td");
+td.appendChild(deleteIcon);
+tr.appendChild(td);
+tbody.appendChild(tr);
+}
+table.appendChild(tbody);
+view.appendChild(table);
+}
+this.showErrorPage=function()
+{
+alert('ErrorPage');
+}
+}
+function EmployeeController(viewId)
+{
+var service=new EmployeeService();
+var model=new EmployeeModel();
+var view=new EmployeeView(model,viewId);
+this.onEmployeeSelection=null;
+this.onEditEmployee=null;
+this.onDeleteEmployee=null;
+var THIS=this;
+this.addEventHandler=function(event,handler)
+{
+if(event=='onEmployeeSelection')
+{
+THIS.onEmployeeSelection=handler;
+view.onEmployeeSelection=handler;
+}
+if(event=='onEditEmployee')
+{
+THIS.onEditEmployee=handler;
+view.onEditEmployee=handler;
+}
+if(event=='onDeleteEmployee')
+{
+THIS.onDeleteEmployee=handler;
+view.onDeleteEmployee=handler;
+}
+}
+view.showLoader();
+service.getEmployees(function(employees){
+model.employees=employees;
+view.hideLoader();
+view.updateView();
+},function(exception){
+alert('some server side exception'); // remove it later on
+view.hideLoader();
+},function(error){
+alert('Serious problem : '+error);
+view.hideLoader();
+view.showErrorPage();
+});
+this.add=function(employee,successCallBack,exceptionCallBack){
+service.add(employee,function(employee){
+for(var i=0;i<model.employees.length;i++)
+{
+if(model.employees[i].firstName.toUpperCase()==employee.firstName.toUpperCase())
+{
+if(model.employees[i].lastName.toUpperCase()>employee.lastName.toUpperCase()) break;
+}
+if(model.employees[i].firstName.toUpperCase()>employee.firstName.toUpperCase()) break;
+}
+model.employees.splice(i,0,employee);
+view.updateView();
+view.selectRow(i);
+successCallBack();
+},function(exception){
+exceptionCallBack(exception);
+},function(error){
+alert('some serious problem : '+error);
+view.showErrorPage();
+});
+}
+this.remove=function(code,successCallBack,errorCallBack)
+{
+service.removeEmployee(code,function(){
+var idx=model.employees.findIndex(function(e){
+return e.code==code;
+});
+if(idx!=-1)
+{
+model.employees.splice(idx,1);
+view.updateView();
+successCallBack();
+}
+else
+{
+errorCallBack("Invalid code");
+}
+},function(error){
+errorCallBack(error);
+});
+}
+} // Employee Controller Class Ends
+var employeeController;
+// the following code is being written by Ramesh
+function clearDetailsPanel()
+{
+document.getElementById("detailsViewNameLabel").innerHTML="";
+document.getElementById("detailsViewGenderLabel").innerHTML="";
+document.getElementById("detailsViewIsPermanentLabel").innerHTML="";
+document.getElementById("detailsViewCityLabel").innerHTML="";
+}
+function initialize()
+{
+employeeController=new EmployeeController('employeesGridView');
+employeeController.addEventHandler('onEmployeeSelection',function(employee){
+document.getElementById("detailsViewNameLabel").innerHTML=employee.firstName+" "+employee.lastName;
+document.getElementById("detailsViewGenderLabel").innerHTML=(employee.gender=='M')?"Male": "Female";
+document.getElementById("detailsViewIsPermanentLabel").innerHTML=(employee.isPermanent)?"Permanent":"Temporary";
+document.getElementById("detailsViewCityLabel").innerHTML=employee.city;
+});
+employeeController.addEventHandler('onEditEmployee',function(employee){
+alert(employee.firstName+", edit clicked")
+});
+employeeController.addEventHandler('onDeleteEmployee',function(employee){
+document.getElementById("deleteModalNameLabel").innerHTML=employee.firstName+" "+employee.lastName;
+document.getElementById("deleteModalGenderLabel").innerHTML=(employee.gender=='M')?"Male":"Female";
+document.getElementById("deleteModalIsPermanentLabel").innerHTML=(employee.isPermanent)?"Permanent":"Temporary";
+document.getElementById("deleteModalCityLabel").innerHTML=employee.city;
+document.getElementById("employeeDeleteForm").code.value=employee.code;
+document.getElementById("employeeDeleteDivisionMask").style.visibility="visible";
+});
+}
+function addEmployee()
+{
+var frm=document.getElementById("employeeAddForm");
+var firstName=frm.firstName.value.trim();
+var lastName=frm.lastName.value.trim();
+var city=frm.city.value;
+var gender;
+if(frm.gender[0].checked) gender="M";
+if(frm.gender[1].checked) gender="F";
+var isParmenent=frm.isPermanent.checked;
+employeeController.add(new Employee(0,firstName,lastName,gender,isParmenent,city),function(){
+frm.reset();
+document.getElementById("employeeAddDivisionMask").style.visibility="hidden";
+},function(exception){
+alert(exception); // or do whatever is required
+});
+}
+function deleteEmployee()
+{
+var deleteModalButtons=document.getElementById("deleteModalButtons");
+//deleteModalButtons.style.visibility="hidden"; // some problem
+// do something for progress part
+var frm=document.getElementById("employeeDeleteForm");
+var code=frm.code.value;
+employeeController.remove(code,function(){
+var deleteModalMessage=document.getElementById("deleteModalMessage");
+// do something about the progress part
+deleteModalMessage.innerHTML="Employee deleted";
+setTimeout(function(){
+// deleteModalButtons.style.visibility='visible'; // some problem
+deleteModalMessage.innerHTML="";
+document.getElementById("employeeDeleteDivisionMask").style.visibility="hidden";
+},2000);
+},function(error){
+alert(error);
+});
+}
+window.addEventListener('load',initialize);
+</script>
+<!-- following are CSS Styles (Cascading Style Sheet) -->
+<style>
+.addIcon
+{
+float:right;
+margin-bottom: 10px;
+cursor: pointer;
+}
+.selectedRow
+{
+background: black;
+color: white;
+}
+.notSelectedRow
+{
+color: black;
+background: white;
+}
+.gridView
+{
+text-align: center;
+padding: 5px;
+}
+.gridViewTable
+{
+border: 1px solid gray;
+border-collapse: collapse;
+cellspacing: 0;
+width: 100%; }
+.gridViewTable th {
+border: 1px solid gray;
+color:black;
+background: #aabb33; }
+.gridViewTable td {
+border: 1px solid gray;
+text-align: right;
+width:50px;
+padding-left:2px;
+cursor: pointer; }
+.gridViewTable td+td {
+text-align: left;
+min-width: 150px; }
+.gridViewTable td+td+td {
+text-align: center;
+min-width:50px; }
+#employeeAddDivision {
+color:red;
+height: 300px;
+width: 500px;
+position: absolute;
+margin: auto;
+left: 50%;
+top: 50%;
+margin-left: -250px;
+margin-top: -100px;
+border: 1px solid black;
+background: white; }
+#employeeAddDivisionMask {
+left: 0px;
+top: 0px;
+position: absolute;
+width:100%;
+height: 100%;
+background-image: url('images/mask.jpg');
+visibility: hidden; }
+#employeeAddDivisionTitleBar {
+width: 100%;
+background: black;
+height: 25px;
+color:white;
+font-size:13pt;
+padding: 1px; }
+.modalCloseIcon {
+float:right;
+cursor: pointer; }
+#employeeAddDivisionContent {
+padding: 20px; }
+#employeeDeleteDivision {
+color:red;
+height: 300px;
+width: 500px;
+position: absolute;
+margin: auto;
+left: 50%;
+top: 50%;
+margin-left: -250px;
+margin-top: -100px;
+border: 1px solid black;
+background: white; }
+#employeeDeleteDivisionMask {
+left: 0px;
+top: 0px;
+position: absolute;
+width:100%;
+height: 100%;
+background-image: url('images/mask.jpg');
+visibility: hidden;
+}
+#employeeDeleteDivisionTitleBar
+{
+width: 100%;
+background: black;
+height: 25px;
+color:white;
+font-size:13pt;
+padding: 1px;
+}
+#employeeDeleteDivisionContent
+{
+padding: 20px;
+}
+.detailsView
+{
+border: 1px solid black;
+width: 100%;
+padding:10px;
+}
+</style>
+</head>
+<body>
+<h1>Employees</h1>
+<div id='employeesGridView' class='gridView'>
+</div>
+
+
+<div id='employeesDetailView' class='detailsView'>
+<!-- format it as per your needs -->
+Name <label id='detailsViewNameLabel'></label><br>
+Gender <label id='detailsViewGenderLabel'></label><br>
+Is Permanent<label id='detailsViewIsPermanentLabel'></label><br>
+City<label id='detailsViewCityLabel'></label><br>
+</div>
+
+
+
+
+
+
+
+
+
+<div id='employeeAddDivisionMask'>
+<div id='employeeAddDivision'>
+<div id='employeeAddDivisionTitleBar'>
+Add Employee
+<img src='images/close_icon.png' class='modalCloseIcon'
+onclick='javascript:document.getElementById("employeeAddDivisionMask").style.visibility="hidden"
+'>
+</div>
+<div id='employeeAddDivisionContent'>
+<form id='employeeAddForm'>
+<!-- format the layout as per your needs -->
+First name <input type='text' id='firstName' name='firstName'><br>
+Last name <input type='text' id='lastName' name='lastName'><br>
+Gender &nbsp;&nbsp;&nbsp;Male<input type='radio' id='male' name='gender'>
+&nbsp;&nbsp;&nbsp;Female<input type='radio' id='female' name='gender'>
+<br>
+Is Permanent<input type='checkbox' id='isPermanent' name='isPermanent'><br>
+City<input type='text' id='city' name='city'><br>
+<button type='button' onclick='addEmployee()'>Add</button>
+</form>
+</div>
+</div>
+</div>
+<div id='employeeDeleteDivisionMask'>
+<div id='employeeDeleteDivision'>
+<div id='employeeDeleteDivisionTitleBar'>
+Delete Employee
+<img src='images/close_icon.png' class='modalCloseIcon'
+onclick='javascript:document.getElementById("employeeDeleteDivisionMask").style.visibility="hidden"'>
+</div>
+<div id='employeeDeleteDivisionContent'>
+<form id='employeeDeleteForm'>
+<input type='hidden' name='code'>
+<!-- format the layout as per your needs -->
+Name <label id='deleteModalNameLabel'></label><br>
+Gender <label id='deleteModalGenderLabel'></label><br>
+Is Permanent<label id='deleteModalIsPermanentLabel'></label><br>
+City<label id='deleteModalCityLabel'></label><br>
+<span id='deleteModalButtons'>
+<button type='button' onclick='deleteEmployee()'>Delete</button>
+<button type='button'
+onclick='javascript:document.getElementById("employeeDeleteDivisionMask").style.visibility="hidden"'>Cancel</button>
+</span>
+<div id='deleteModalProgress'>
+</div>
+<div id='deleteModalMessage'>
+</div>
+</form>
+</div>
+</div>
+</div>
+</body>
+</html>

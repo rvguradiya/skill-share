@@ -1,0 +1,17 @@
+0:0:0:0:0:0:0:1 - - [01/Apr/2019:22:56:18 +0530] "GET /skillshare/homePage.jsp HTTP/1.1" 200 15601
+0:0:0:0:0:0:0:1 - - [01/Apr/2019:22:56:18 +0530] "GET /skillshare/jqueryBootstrap/bootstrap4.css HTTP/1.1" 304 -
+0:0:0:0:0:0:0:1 - - [01/Apr/2019:22:56:18 +0530] "GET /skillshare/css/addPostForm.css HTTP/1.1" 304 -
+0:0:0:0:0:0:0:1 - - [01/Apr/2019:22:56:18 +0530] "GET /skillshare/js/addPostForm.js HTTP/1.1" 304 -
+0:0:0:0:0:0:0:1 - - [01/Apr/2019:22:56:18 +0530] "GET /skillshare/jqueryBootstrap/jquery2.js HTTP/1.1" 304 -
+0:0:0:0:0:0:0:1 - - [01/Apr/2019:22:56:18 +0530] "GET /skillshare/css/postBox.css HTTP/1.1" 304 -
+0:0:0:0:0:0:0:1 - - [01/Apr/2019:22:56:18 +0530] "GET /skillshare/js/commentBox.js HTTP/1.1" 304 -
+0:0:0:0:0:0:0:1 - - [01/Apr/2019:22:56:18 +0530] "GET /skillshare/js/postBox.js HTTP/1.1" 304 -
+0:0:0:0:0:0:0:1 - - [01/Apr/2019:22:56:19 +0530] "GET /skillshare/jqueryBootstrap/jquery1.js HTTP/1.1" 304 -
+0:0:0:0:0:0:0:1 - - [01/Apr/2019:22:56:19 +0530] "GET /skillshare/jqueryBootstrap/jquery.js HTTP/1.1" 304 -
+0:0:0:0:0:0:0:1 - - [01/Apr/2019:22:56:19 +0530] "GET /skillshare/bg.jpg HTTP/1.1" 304 -
+0:0:0:0:0:0:0:1 - - [01/Apr/2019:22:56:19 +0530] "GET /skillshare/abc.jpg HTTP/1.1" 304 -
+0:0:0:0:0:0:0:1 - - [01/Apr/2019:22:57:46 +0530] "POST /skillshare/login HTTP/1.1" 302 -
+0:0:0:0:0:0:0:1 - - [01/Apr/2019:22:58:04 +0530] "GET /skillshare/homePage.jsp HTTP/1.1" 200 16528
+0:0:0:0:0:0:0:1 - - [01/Apr/2019:22:58:05 +0530] "GET /skillshare/user-icon.png HTTP/1.1" 304 -
+0:0:0:0:0:0:0:1 - - [01/Apr/2019:23:12:37 +0530] "GET /skillshare/postDetails.jsp HTTP/1.1" 200 11844
+0:0:0:0:0:0:0:1 - - [01/Apr/2019:23:12:37 +0530] "GET /skillshare/postDetails.jsp HTTP/1.1" 200 11844

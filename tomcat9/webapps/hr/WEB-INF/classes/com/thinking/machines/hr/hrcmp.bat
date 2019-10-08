@@ -1,0 +1,1 @@
+javac -cp  .;c:\tomcat9\lib\servlet-api.jar;c:\tomcat9\webapps\hr\WEB-INF\classes;C:\tomcat9\webapps\hr\WEB-INF\lib\gson-2.8.5.jar  *.java

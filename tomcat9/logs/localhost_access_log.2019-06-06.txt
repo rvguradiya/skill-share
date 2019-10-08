@@ -1,0 +1,12 @@
+0:0:0:0:0:0:0:1 - - [06/Jun/2019:19:39:52 +0530] "GET /onlineCounselling/adminPanel.jsp HTTP/1.1" 200 8206
+0:0:0:0:0:0:0:1 - - [06/Jun/2019:19:39:52 +0530] "GET /onlineCounselling/adminPanel.jsp HTTP/1.1" 200 20596
+0:0:0:0:0:0:0:1 - - [06/Jun/2019:19:39:52 +0530] "GET /onlineCounselling/jqueryBootstrap/adminPanelScript.js HTTP/1.1" 200 36687
+0:0:0:0:0:0:0:1 - - [06/Jun/2019:19:39:53 +0530] "GET /onlineCounselling/getCountry HTTP/1.1" 200 104
+0:0:0:0:0:0:0:1 - - [06/Jun/2019:19:39:53 +0530] "GET /onlineCounselling/getStream HTTP/1.1" 200 142
+0:0:0:0:0:0:0:1 - - [06/Jun/2019:19:39:53 +0530] "GET /onlineCounselling/getBranch HTTP/1.1" 200 163
+0:0:0:0:0:0:0:1 - - [06/Jun/2019:19:39:53 +0530] "GET /onlineCounselling/getState HTTP/1.1" 200 130
+0:0:0:0:0:0:0:1 - - [06/Jun/2019:19:39:53 +0530] "GET /onlineCounselling/getCampus HTTP/1.1" 200 154
+0:0:0:0:0:0:0:1 - - [06/Jun/2019:19:39:53 +0530] "GET /onlineCounselling/getCity HTTP/1.1" 200 120
+0:0:0:0:0:0:0:1 - - [06/Jun/2019:19:46:01 +0530] "POST /onlineCounselling/addCountry HTTP/1.1" 200 174
+0:0:0:0:0:0:0:1 - - [06/Jun/2019:19:46:55 +0530] "POST /onlineCounselling/addState HTTP/1.1" 200 242
+0:0:0:0:0:0:0:1 - - [06/Jun/2019:19:46:59 +0530] "POST /onlineCounselling/addState HTTP/1.1" 200 155

@@ -1,0 +1,36 @@
+<!doctype html>
+<html lang='en'>
+<head>
+<meta charset='utf-8'>
+<title>Some company name</title>
+<script>
+var a;
+function Bulb() 
+{
+c="fdhj";
+var w; // private property
+this.setWattage=function(x) 
+{
+w=x;
+ }
+this.getWattage=function() 
+{
+return w;
+ }
+}
+
+
+//the below function is global function
+function doSomething() {
+var b=new Bulb();    //Bulb class ka object banaya uska address b ko assign kiya
+b.setWattage(60); 
+alert("c=:"+c);
+alert("w=:"+b.w);
+alert("w="+b.getWattage()); 
+}
+</script>
+</head>
+<body>
+<button type='button' onclick='doSomething()'>Click me</button>
+</body>
+</html>

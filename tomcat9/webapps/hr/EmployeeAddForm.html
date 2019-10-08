@@ -1,0 +1,99 @@
+<!doctype html>
+<html lang='en'>
+<head>
+<meta charset='utf-8'>
+<title>Some company name</title>
+<script>
+function validateForm(frm)
+{
+var firstNameComponent=frm.firstName;
+var lastNameComponent=frm.lastName;
+var maleComponent=frm.gender[0];
+var femaleComponent=frm.gender[1];
+var isPermanentComponent=frm.isPermanent;
+var cityComponent=frm.city;
+var firstNameErrorSection=document.getElementById('firstNameErrorSection');
+var lastNameErrorSection=document.getElementById('lastNameErrorSection');
+var genderErrorSection=document.getElementById('genderErrorSection');
+var cityErrorSection=document.getElementById('cityErrorSection');
+var firstName=firstNameComponent.value.trim();
+var lastName=lastNameComponent.value.trim();
+var city=cityComponent.value.trim();
+var valid=true;
+firstNameErrorSection.innerHTML='';
+lastNameErrorSection.innerHTML='';
+genderErrorSection.innerHTML='';
+cityErrorSection.innerHTML='';
+var firstInvalidComponent=null;
+if(firstName.length==0)
+{
+firstNameErrorSection.innerHTML='Required';
+valid=false;
+firstInvalidComponent=firstNameComponent;
+}
+if(lastName.length==0)
+{
+lastNameErrorSection.innerHTML='Required';
+valid=false;
+if(firstInvalidComponent==null) firstInvalidComponent=lastNameComponent;
+}
+if(male.checked==false && female.checked==false)
+{
+genderErrorSection.innerHTML="Required";
+valid=false;
+}
+if(city.length==0)
+{
+cityErrorSection.innerHTML="Required";
+if(valid==true) firstInvalidComponent=cityComponent;
+valid=false;
+}
+if(valid==false && firstInvalidComponent!=null)
+{
+firstInvalidComponent.focus();
+}
+return valid;
+}
+</script>
+</head>
+<body>
+<h1>Employee (Add Module)</h1>
+<form method='get' action='/hr/addEmployee' onsubmit='return validateForm(this)'>
+<table>
+<tr>
+<td>First name</td>
+<td>
+<input type='text' name='firstName' id='firstName' maxlength='20' size='21'>
+<span id='firstNameErrorSection' style='color:red'></span>
+</td>
+</tr>
+<tr>
+<td>Last name</td>
+<td>
+<input type='text' name='lastName' id='lastName' maxlength='20' size='21'>
+<span id='lastNameErrorSection' style='color:red'></span>
+</td>
+</tr>
+<tr>
+<td>Gender</td>
+<td>Male <input type='radio' name='gender' id='male' value='M'>&nbsp;&nbsp;&nbsp;Female<input
+type='radio' name='gender' id='female' value='F'>
+<span id='genderErrorSection' style='color:red'></span></td>
+</tr>
+<tr>
+<td>Is Permanent</td>
+<td><input type='checkbox' name='isPermanent' id='isPermanent' value='Y'></td>
+</tr>
+<tr>
+<td>City</td>
+<td><input type='text' name='city' id='city' maxlength='35' size='36'>
+<span id='cityErrorSection' style='color:red'></span></td>
+</tr>
+<tr>
+<td colspan='3' align='center'>
+<button type='submit'>Add</button>
+</td>
+</table>
+</form>
+</body>
+</html>

@@ -1,0 +1,49 @@
+<!doctype html>
+<html lang='en'>
+<head>
+<meta charset='utf-8'>
+<title>Some company name</title>
+<script>
+function Bulb(k) 
+{
+var w=0; // private property
+if(k) 
+{
+alert('ho gaya');   //ye bhi class level par ye bhi object bnte hi chlega
+w=k; 
+}
+//alert(w);   //ye bhi class level pr ye bhi object bnte hi chlega
+this.setWattage=function(x) 
+{
+w=x; 
+}
+this.getWattage=function() 
+{
+return w; 
+}
+alert('Cool');  //class level pr means jb bhi object bnega chl jayega
+}
+function ll()
+{
+setTimeout(doSomething,3000)
+}
+
+function doSomething() 
+{
+
+var b=new Bulb();  //cool print hoga object bnte hi coz class level pr alert () ko call kiya h
+b.setWattage(60);
+//alert(b.getWattage());
+var c=new Bulb(60,50,56); //cool print hoga object bnte hi coz class level pr alert () ko call kiya h
+c.setWattage(100);
+//alert(c.getWattage()); 
+
+}
+alert("script level");
+window.addEventListener('load',ll);
+</script>
+</head>
+<body>
+<button type='button' onclick='doSomething()'>Click me</button>
+</body>
+</html>

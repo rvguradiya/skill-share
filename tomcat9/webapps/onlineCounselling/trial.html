@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title></title>
+	<script type="text/javascript">
+		function Day(vDay,vStartRank,vEndRank)
+		{
+			this.day=vDay;
+			this.startRank=vStartRank;
+			this.endRank=vEndRank;
+
+		}
+		function Slot(vStartTime,vEndTime)
+		{
+			this.startTime=vStartTime;
+			this.endTime=vEndTime;
+		}
+			function addRow(tableID,n) {
+
+			var table = document.getElementById(tableID);
+			var rowCount = table.rows.length;
+			for(var i=0; i<rowCount; i++) {
+				if(rowCount>1) table.deleteRow(i);
+				i--;
+				rowCount--;
+
+			}
+
+			for(j=1;j<n;j++)
+			{
+			var row = table.insertRow(j);
+			var colCount = table.rows[0].cells.length;
+			for(var i=0; i<colCount; i++) {
+
+				var newcell	= row.insertCell(i);
+
+				newcell.innerHTML = table.rows[0].cells[i].innerHTML;
+			}}
+		}
+
+function addDayAndSlots()
+{
+	var day=document.getElementById('daysOfCounselling').value;
+	var slot=document.getElementById('slotsOfCounselling').value;
+	var days=[];
+	var slots=[];
+	var tbl1=document.getElementById('dateAndTime');
+	var tbl2=document.getElementById('timeOfSlot');
+	var l=tbl1.rows.length;
+		for(j=0;j<l;j++)
+			{
+				var day=tbl1.rows[j].cells[1].childNodes[0].value;
+			    var startRank=tbl1.rows[j].cells[3].childNodes[0].value;
+			     var endRank=tbl1.rows[j].cells[5].childNodes[0].value;
+				days.push(new Day(day,startRank,endRank));
+			}
+	 l=tbl2.rows.length;
+		for(j=0;j<l;j++)
+			{
+				var startTime=tbl2.rows[j].cells[1].childNodes[0].value;
+			    var endTime=tbl2.rows[j].cells[3].childNodes[0].value;
+				slots.push(new Slot(startTime,endTime));
+			}
+			var l=days.length;
+			for(j=0;j<l;j++)
+			{
+				alert(days[j].day+"  "+days[j].startRank+"  "+days[j].endRank);
+			}
+			var l=slots.length;
+			for(j=0;j<l;j++)
+			{
+				alert(slots[j].startTime+"  "+slots[j].endTime);
+			}
+
+
+}
+
+
+	
+	</script>
+</head>
+<body>
+<!--<button onclick="javascript:abc()">hello</button>-->
+<div id="view">
+	
+		<label>Days</label>
+		<input type="number" id="daysOfCounselling" name="" min="1" onchange="javascript:addRow('dateAndTime',this.value)"><br>
+	
+
+
+
+
+<table id="dateAndTime">
+	<tr>
+	<td><label>Date</label></td>
+	<td><input type="date" name=""></td>
+	<td><label>start rank</label></td>
+	<td><input type="number" name=""></td>
+	<td><label>end rank</label></td>
+	<td><input type="number" name=""></td>
+	</tr>
+</table>
+	<label>Slot</label>
+		<input type="number" id="slotsOfCounselling" min="1"  name="" onchange="javascript:addRow('timeOfSlot',this.value)">
+<table id="timeOfSlot">
+	<tr>
+	<td><label>start time</label></td>
+	<td><input type="time" name=""></td>
+	<td><label>end time</label></td>
+	<td><input type="time" name=""></td>
+	</tr>
+</table>
+<button onclick="javascript:addDayAndSlots()">add</button>
+<button id="sandeepbutton" onclick="alert('i clicked')"></button>
+<button onclick="javascript:pqr()">click</button>
+</div>
+</body>
+</html>
+
+<script type="text/javascript">
+	function abc()
+	{
+
+		var e=[];
+		for(var x=1;x<5;x++)
+		{
+		var json={
+			"id":x,
+			"name":"r"+x,
+			"city":"d"
+
+		};
+		e.push(json);
+
+		}
+		var json1={
+			"name":"uttar pradesh",
+			"arr":e
+		};
+		var httpRequest=new XMLHttpRequest();
+httpRequest.onreadystatechange=function(){
+if(this.readyState==4 && this.status==200)
+{
+//var data=httpRequest.responseText;
+//var applicationResponse=JSON.parse(data);
+alert("aakhir chl gyi");
+}};
+httpRequest.open("POST","trial",true);
+httpRequest.setRequestHeader("content-type","application/x-www-form-urlencoded");
+httpRequest.send(JSON.stringify(json1));
+
+
+	}
+
+	function pqr()
+	{
+		document.getElementById('sandeepbutton').click();
+		alert('hello');
+	}
+</script>
+
+
+
+
+<script type="text/javascript">
+	
+</script>

@@ -1,0 +1,2 @@
+insert into user_account (user_name,email,password) values('sandeep','sandeepsharma12@gmail.com','sandeep12');
+insert into user_account (user_name,email,password) values('amit','amitsharma12@gmail.com','amit12');

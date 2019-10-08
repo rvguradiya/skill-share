@@ -1,0 +1,152 @@
+
+
+<web-app xmlns="http://xmlns.jcp.org/xml/ns/javaee"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee
+                      http://xmlns.jcp.org/xml/ns/javaee/web-app_4_0.xsd"
+  version="4.0"
+  metadata-complete="true">
+
+<servlet>
+<servlet-name>StartupService</servlet-name>
+<servlet-class>StartupService</servlet-class>
+<load-on-startup>1</load-on-startup>
+</servlet>
+
+
+<servlet>
+ <servlet-name>AddCountry</servlet-name>
+ <servlet-class>AddCountry</servlet-class>
+ </servlet>
+ <servlet-mapping>
+ <servlet-name>AddCountry</servlet-name>
+ <url-pattern>/addCountry</url-pattern>
+ </servlet-mapping>
+
+<servlet>
+ <servlet-name>AddState</servlet-name>
+ <servlet-class>AddState</servlet-class>
+ </servlet>
+ <servlet-mapping>
+ <servlet-name>AddState</servlet-name>
+ <url-pattern>/addState</url-pattern>
+ </servlet-mapping>
+
+
+<servlet>
+ <servlet-name>AddCity</servlet-name>
+ <servlet-class>AddCity</servlet-class>
+ </servlet>
+ <servlet-mapping>
+ <servlet-name>AddCity</servlet-name>
+ <url-pattern>/addCity</url-pattern>
+ </servlet-mapping>
+
+<servlet>
+ <servlet-name>AddCampus</servlet-name>
+ <servlet-class>AddCampus</servlet-class>
+ </servlet>
+ <servlet-mapping>
+ <servlet-name>AddCampus</servlet-name>
+ <url-pattern>/addCampus</url-pattern>
+ </servlet-mapping>
+
+<servlet>
+ <servlet-name>AddStream</servlet-name>
+ <servlet-class>AddStream</servlet-class>
+ </servlet>
+ <servlet-mapping>
+ <servlet-name>AddStream</servlet-name>
+ <url-pattern>/addStream</url-pattern>
+ </servlet-mapping>
+
+<servlet>
+ <servlet-name>AddBranch</servlet-name>
+ <servlet-class>AddBranch</servlet-class>
+ </servlet>
+ <servlet-mapping>
+ <servlet-name>AddBranch</servlet-name>
+ <url-pattern>/addBranch</url-pattern>
+ </servlet-mapping>
+
+
+<servlet>
+ <servlet-name>AddBranchSeats</servlet-name>
+ <servlet-class>AddBranchSeats</servlet-class>
+ </servlet>
+ <servlet-mapping>
+ <servlet-name>AddBranchSeats</servlet-name>
+ <url-pattern>/addBranchSeats</url-pattern>
+ </servlet-mapping>
+
+<servlet>
+ <servlet-name>GetCountry</servlet-name>
+ <servlet-class>GetCountry</servlet-class>
+ </servlet>
+ <servlet-mapping>
+ <servlet-name>GetCountry</servlet-name>
+ <url-pattern>/getCountry</url-pattern>
+ </servlet-mapping>
+
+
+<servlet>
+ <servlet-name>GetState</servlet-name>
+ <servlet-class>GetState</servlet-class>
+ </servlet>
+ <servlet-mapping>
+ <servlet-name>GetState</servlet-name>
+ <url-pattern>/getState</url-pattern>
+ </servlet-mapping>
+
+<servlet>
+ <servlet-name>GetCity</servlet-name>
+ <servlet-class>GetCity</servlet-class>
+ </servlet>
+ <servlet-mapping>
+ <servlet-name>GetCity</servlet-name>
+ <url-pattern>/getCity</url-pattern>
+ </servlet-mapping>
+
+<servlet>
+ <servlet-name>GetCampus</servlet-name>
+ <servlet-class>GetCampus</servlet-class>
+ </servlet>
+ <servlet-mapping>
+ <servlet-name>GetCampus</servlet-name>
+ <url-pattern>/getCampus</url-pattern>
+ </servlet-mapping>
+
+<servlet>
+ <servlet-name>GetStream</servlet-name>
+ <servlet-class>GetStream</servlet-class>
+ </servlet>
+ <servlet-mapping>
+ <servlet-name>GetStream</servlet-name>
+ <url-pattern>/getStream</url-pattern>
+ </servlet-mapping>
+
+
+<servlet>
+ <servlet-name>GetBranch</servlet-name>
+ <servlet-class>GetBranch</servlet-class>
+ </servlet>
+ <servlet-mapping>
+ <servlet-name>GetBranch</servlet-name>
+ <url-pattern>/getBranch</url-pattern>
+ </servlet-mapping>
+
+<servlet>
+ <servlet-name>Trial</servlet-name>
+ <servlet-class>Trial</servlet-class>
+ </servlet>
+ <servlet-mapping>
+ <servlet-name>Trial</servlet-name>
+ <url-pattern>/trial</url-pattern>
+ </servlet-mapping>
+
+
+
+<session-config>
+    <session-timeout>45</session-timeout> <!-- in minutes -->
+  </session-config>
+</web-app>
